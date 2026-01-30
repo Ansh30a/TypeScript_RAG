@@ -1,1 +1,1 @@
-console.log("Hello via Bun!");
+console.log("TypeScript RAG project initialised 🚀");
