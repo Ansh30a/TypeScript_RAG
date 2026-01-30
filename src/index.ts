@@ -1,13 +1,34 @@
 import { ingest } from "./ingestion";
 import { chunkDocuments } from "./chunking";
 import { embedChunks } from "./embeddings/embedder";
+import { ChromaVectorStore } from "./vectorstore/chroma";
 
 const docs = await ingest("./data/sample.txt");
 const chunks = chunkDocuments(docs);
-const embedded = await embedChunks(chunks);
+const embeddedChunks = await embedChunks(chunks);
 
-console.log("Embedding dimension:", embedded[0]?.embedding.length);
-console.log("Sample vector slice:", embedded[0]?.embedding.slice(0, 5));
+const vectorStore = new ChromaVectorStore();
+await vectorStore.init();
+await vectorStore.addChunks(embeddedChunks);
+
+console.log("✅ Chunks stored in Chroma");
+
+
+
+
+
+
+
+// import { ingest } from "./ingestion";
+// import { chunkDocuments } from "./chunking";
+// import { embedChunks } from "./embeddings/embedder";
+
+// const docs = await ingest("./data/sample.txt");
+// const chunks = chunkDocuments(docs);
+// const embedded = await embedChunks(chunks);
+
+// console.log("Embedding dimension:", embedded[0]?.embedding.length);
+// console.log("Sample vector slice:", embedded[0]?.embedding.slice(0, 5));
 
 
 
